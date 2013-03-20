@@ -24,6 +24,10 @@ originally created, but in a slightly more economical (robotic) manner.
 
 issues: 
 
+- iOS6: The input range sliders don't work in this version or the main version of Web
+Audio Playground. After some poking around I found that the sliders get disabled in the pointerevents.js 
+code - which consolidates touch/mouse events.
+
 - There are a few quirks when multiple patch cords come out of the same outlet. 
 Until this gets resolved - there may be instances where it looks like stuff isn't connected, or 
 there are zombie patch cords which don't get cleared.
@@ -35,7 +39,7 @@ connections are remarkably solid.
 - Live-input: if your browser/computer supports live-input, you'll get a system prompt asking you
 to accept it, every single time you create a live-input module or load a patch which has one.
 
-- iOS6: Among other things, gestures for controlling parameters (like range sliders) are not working yet.
+
 
 I think that's it for now. Please send me your cool patches.
 

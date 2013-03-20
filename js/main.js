@@ -33,7 +33,8 @@ function createNewModule( nodeType, input, output ) {
 		tempy = 100;
 
 	e.setAttribute("audioNodeType", nodeType );
-    e.addEventListener("mousedown", skipDefault,   false);
+    e.addEventListener("mousedown", skipDefault,   false); 
+  
 	e.addEventListener( 'pointerdown', startDraggingNode, false );
 	var content = document.createElement("div");
 	content.className="content";
@@ -46,7 +47,7 @@ function createNewModule( nodeType, input, output ) {
 	if (input) {
 		var i=document.createElement("div");
 		i.className="node node-input ";
-	    i.addEventListener( "mousedown", skipDefault, true );
+	    i.addEventListener( "mousedown", skipDefault, true ); 
 		i.addEventListener( 'pointerdown', startDraggingConnector, false );
 		i.innerHTML = "<span class='node-button'>&nbsp;</span>";
 		e.appendChild(i);
@@ -56,7 +57,7 @@ function createNewModule( nodeType, input, output ) {
 	if (output) {
 		var i=document.createElement("div");
 		i.className="node node-output";
-	    i.addEventListener( "mousedown", skipDefault, true );
+	    i.addEventListener( "mousedown", skipDefault, true );  
 		i.addEventListener( 'pointerdown', startDraggingConnector, false );
 		i.innerHTML = "<span class='node-button'>&nbsp;</span>";
 		e.appendChild(i);
@@ -109,11 +110,11 @@ function addModuleSlider( element, label, ivalue, imin, imax, stepUnits, units, 
 	slider.min = imin;
 	slider.max = imax;
 	slider.value = ivalue;
-	slider.step = stepUnits;
+	slider.step = stepUnits;	
 	slider.oninput = onUpdate;
 	group.appendChild(slider);
-
 	element.appendChild(group);
+	
 	return slider;
 
 }
@@ -926,4 +927,4 @@ function init() {
 //		document.body.style.zoom = "2";
 }
 
-window.addEventListener('load', init, false);
+ window.addEventListener('load', init, false);

@@ -14,8 +14,12 @@ function startDraggingNode(event) {
  	var el;
   	var x, y;
 
+	// tz identify iOS event
+	// console.log("e0:" + event.type + "," + event.target.tagName +"," + event.target );
+
 	if (event.target.tagName == "SELECT")
 		return;
+
 	el = event.target;
 
 	if (el.nodeType == 3) // if it's a text node
@@ -62,6 +66,9 @@ function startDraggingNode(event) {
 function whileDraggingNode(event) {
 	var x, y;
 	var e = dragObj.elNode;
+	
+	// tz identify iOS event
+	// console.log("e1:" + event.type + "," + event.target.tagName +"," + event.target );
 
 	// Get cursor position with respect to the page.
     x = event.clientX + window.scrollX;
@@ -117,6 +124,10 @@ function stopDraggingNode(event) {
   // Stop capturing mousemove and mouseup events.
 //    document.removeEventListener("mousemove", whileDraggingNode,   true);
 //    document.removeEventListener("mouseup",   stopDraggingNode, true);
+
+	// tz identify iOS event
+	// console.log("e2:" + event.type + "," + event.target.tagName +"," + event.target );
+	
 	document.removeEventListener( 'pointermove', whileDraggingNode, true );
 	document.removeEventListener( 'pointerup', stopDraggingNode, true );
 	document.removeEventListener( 'pointerleave', stopDraggingNode, true );

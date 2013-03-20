@@ -6,16 +6,20 @@
 	<title>Web Audio Playground</title>
 
 	<link rel="shortcut icon" href="favicon.ico" />
+	
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Serif:400italic" />
 	<link rel="stylesheet" href="css/reset.css" />
 	<link rel="stylesheet" href="css/main.css" />
 
+	<!-- tz using this code breaks the input range sliders in iOS -->
 	<script src="js/pointerevents.js"></script>
+
 	<script src="js/main.js"></script>
 	<script src="js/dragging.js"></script>
 	<script src="js/analyser.js"></script>
 	<!-- tz mod -->
 	<script src="js/patcher.js"></script>
+
 	
 	<script>
 	if (window != window.top)
@@ -83,16 +87,18 @@
 				</li>
 				
 				<li>
-					<input type="button"" "id="cp" value="clear" onclick="deleteAllModules()"></input>						
+					<input type="button" id="cp" value="clear" onclick="deleteAllModules()"></input>						
 				</li>
 				
 				<li>
-					<input type="button"" "id="copytext" value="copy" onclick="copyScreenToClipboard()"></input>						
+					<input type="button" id="copytext" value="copy" onclick="copyScreenToClipboard()"></input>						
 				</li>
 				
 				<li>
-					<input type="button"" "id="pastetext" value="paste" onclick="pasteClipboardToScreen()"></input>						
+					<input type="button" id="pastetext" value="paste" onclick="pasteClipboardToScreen()"></input>						
 				</li>
+				
+					
 				
 				
 			</ul>
@@ -325,6 +331,7 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-</script>
+</script>				
+
 </body>
 </html>
