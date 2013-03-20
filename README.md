@@ -5,6 +5,8 @@ Features:
 Load and Save patches to local web storage
 copy and paste to clipboard using window.prompt box (just use cmd-c or cmd-v)
 
+You can try the latest version at http://zerokidz.com/wap
+
 Patches are saved in JSON text format
 
 ---
