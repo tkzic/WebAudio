@@ -6,6 +6,7 @@ Load and Save patches to local web storage
 copy and paste to clipboard using window.prompt box (just use cmd-c or cmd-v)
 
 You can try the latest version at http://zerokidz.com/wap
+(for best results use Chrome browser)
 
 Patches are saved in JSON text format
 
@@ -23,16 +24,18 @@ originally created, but in a slightly more economical (robotic) manner.
 
 issues: 
 
-There are a few quirks when multiple patch cords come out of the same outlet. 
+- There are a few quirks when multiple patch cords come out of the same outlet. 
 Until this gets resolved - there may be instances where it looks like stuff isn't connected, or 
 there are zombie patch cords which don't get cleared.
 
-When you change your window size, open the console, scroll, or any number of other things - the 
+- When you change your window size, open the console, scroll, or any number of other things - the 
 SVG drawing functions can get confused about where they're supposed to be - but the underlying audio
 connections are remarkably solid. 
 
-Live-input: if your browser/computer supports live-input, you'll get a system prompt asking you
+- Live-input: if your browser/computer supports live-input, you'll get a system prompt asking you
 to accept it, every single time you create a live-input module or load a patch which has one.
+
+- iOS6: Among other things, gestures for controlling parameters (like range sliders) are not working yet.
 
 I think that's it for now. Please send me your cool patches.
 
