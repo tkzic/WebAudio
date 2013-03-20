@@ -441,11 +441,19 @@ function createGain() {
 	if (this.event)
 		this.event.preventDefault();
 }
-
+// tz: if you connected any outputs to live-input "before" the user ok'd the system 
+// query about using a media device - then those outputs need to be reconnected after
+// the device is approved here
+// 
+//
+// this is a callback from the request to use input media device.
 function gotStream(stream) {
     // Create an AudioNode from the stream.
 //    realAudioInput = audioContext.createMediaStreamSource(stream);
     this.audioNode = audioContext.createMediaStreamSource(stream);
+	// tz - reconnect patch cords after user accepts audio input
+	reconnectLiveInput();
+	
 }
 
 function createLiveInput() {
@@ -911,6 +919,8 @@ function init() {
 	setClickHandler( "cgai", createGain );
 	setClickHandler( "ccon", createConvolver );
 	setClickHandler( "cana", createAnalyser );
+	
+	patcher_init();	// tz call init function for patcher functions
 
 //	if (navigator.userAgent.indexOf("Android") != -1)
 //		document.body.style.zoom = "2";

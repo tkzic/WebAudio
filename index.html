@@ -14,6 +14,9 @@
 	<script src="js/main.js"></script>
 	<script src="js/dragging.js"></script>
 	<script src="js/analyser.js"></script>
+	<!-- tz mod -->
+	<script src="js/patcher.js"></script>
+	
 	<script>
 	if (window != window.top)
 		document.write("<style>#header {display:none}</style>")
@@ -35,6 +38,8 @@
 							<li><a href="#">Audio Buffer Source From URL</a></li>
 -->							<li><a href="#" id="cosc">Oscillator</a></li>
 							<li><a href="#" id="cliv">Live Input</a></li>
+							<!-- tz mod -->
+							<!-- <li><a href="#" id="cosc2">Oscillator2</a></li> -->
 						</ul>
 					</div>	
 				</li>
@@ -51,6 +56,45 @@
 						</ul>
 					</div>	
 				</li>
+				
+				<li>
+					<a href="#">load patch</a>
+					<div class="sub-menu">
+						<ul>
+							<section id="patches" class="container">
+								<li><a href="#" id="pepsi">pepsi</a></li>
+								<li><a href="#" id="coke">coke</a></li>
+								<li><a href="#" id="dew">dew</a></li>
+								<li><a href="#" id="doctorp">doctorp</a></li>
+								<li><a href="#" id="7up">7up</a></li>
+								<li><a href="#" id="crush">crush</a></li>
+							</section>
+						</ul>
+					</div>	
+				</li>
+				
+				
+				<li>
+					<input type="button"" "id="sp" value="click to save patch as =&gt;" onclick="savePatchAs()"></input>						
+				</li>
+				
+				<li>
+					<input type="text" id="patchNameText"></input>					
+				</li>
+				
+				<li>
+					<input type="button"" "id="cp" value="clear" onclick="deleteAllModules()"></input>						
+				</li>
+				
+				<li>
+					<input type="button"" "id="copytext" value="copy" onclick="copyScreenToClipboard()"></input>						
+				</li>
+				
+				<li>
+					<input type="button"" "id="pastetext" value="paste" onclick="pasteClipboardToScreen()"></input>						
+				</li>
+				
+				
 			</ul>
 		</nav>
 		<section id="modules" class="container">

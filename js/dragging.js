@@ -292,11 +292,17 @@ function connectNodes( src, dst ) {
 
 	connectorShape = null;
 }
-
+//////////////////////////////////////////////////////////////////
+// tz these next three functions have been 'sandbagged'
+// ie, lots of null checks to temporarily keep it from crashing
+// when we clear patches from the screen or re-connect patch cords
+// 3/19/2013
 function deleteConnection() {
+//	console.log("deleteConnection...");  // tz
 	var connections = this.destination.inputConnections;
 	breakSingleInputConnection( connections, connections.indexOf( this.inputConnection ) );
 }
+
 
 function breakSingleInputConnection( connections, index ) {
 		var connector = connections[index];
@@ -320,6 +326,11 @@ function breakSingleInputConnection( connections, index ) {
 		connections.splice( index, 1 );
 }
 
+// tz: note - this isn't working quite right for output connections where there are
+// multiple patchcords coming out of the output
+// I'm too tired to look at it now, but my hunch is that if you have lines 0,1,2 and
+// you delete 0, then you need to make sure that 1,2 become 0,1 in every aspect
+
 // Disconnect a node from all other nodes connecting to it, or that it connects to.
 function disconnectNode( nodeElement ) {
 	//for all nodes we connect to,
@@ -328,9 +339,13 @@ function disconnectNode( nodeElement ) {
 			var connector = nodeElement.outputConnections[i];
 			// find each dstElement and remove us from the dst.inputConnections,
 			var connections = connector.destination.inputConnections;
-			connections.splice( connections.indexOf(nodeElement), 1);
+			if(connections) {  // tz null check
+				connections.splice( connections.indexOf(nodeElement), 1);
+			}
 			// and delete the line 
-			connector.line.parentNode.removeChild( connector.line );
+			if(connector.line.parentNode) {	// tz check for null
+				connector.line.parentNode.removeChild( connector.line );
+			}
 		}
 		// empty our outputConnections
 		nodeElement.outputConnections = null;
@@ -350,24 +365,34 @@ function disconnectNode( nodeElement ) {
 			var src = connector.source;
 			var connections = src.outputConnections;
 			// delete us from their .outputConnections,
-			connections.splice( connections.indexOf(nodeElement), 1);
+			
+			// tz - this is getting null errors too... 
+			if((nodeElement) && (connections)) {
+				connections.splice( connections.indexOf(nodeElement), 1);
+			}
 
 			if (src.audioNode) {	// they may not have an audioNode, if they're a BSN or an Oscillator
 				// call disconnect() on the src,
 				src.audioNode.disconnect();
 				// if there's anything in their outputConnections, re.connect() those nodes.
 				// TODO: again, this will break due to src resetting.
-				for (var j=0; j<connections.length; j++)
-					src.audioNode.connect(connections[i].destination.audioNode);
+				if(connections) {		// tz another null check
+					for (var j=0; j<connections.length; j++)
+						src.audioNode.connect(connections[i].destination.audioNode);
+					}
 			}
 
 			// and delete the line 
-			connector.line.parentNode.removeChild( connector.line );
+			if(connector.line.parentNode) {	// tz another null check
+				connector.line.parentNode.removeChild( connector.line );
+			}
 		}
 		// empty inputConnections
 		nodeElement.inputConnections = null;
 	}
 }
+///////////////// end of tz mods ///////////////////////////////
+
 
 function stopDraggingConnector(event) {
   	// Stop capturing mousemove and mouseup events.
