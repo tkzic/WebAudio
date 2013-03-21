@@ -12,7 +12,7 @@ You can try the latest version at http://zerokidz.com/wap
 (for best results use Chrome browser Mac OS - although many features of the API are supported
 in other browsers and platforms)
 
-demo video: http://www.youtube.com/watch?v=CSN0GmRzL00
+demo video: http://www.youtube.com/watch?v=xzrvkpc3TZU
 
 Patches are saved in JSON text format
 
