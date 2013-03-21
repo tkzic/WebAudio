@@ -3,7 +3,8 @@ Web Audio Playground - fork: load/save patches
 Features:
 
 Load and Save patches to local web storage
-copy and paste to clipboard using window.prompt box (just use cmd-c or cmd-v)
+copy/paste patches to/from clipboard using window.prompt box (just use cmd-c or cmd-v)
+Control all module parameters via OSC using ruby server script (Max test patch included)
 
 You can try the latest version at http://zerokidz.com/wap
 (for best results use Chrome browser)
@@ -16,7 +17,7 @@ How does it work?
 
 If you look at the code, you'll notice its practically identical to the original branch. 
 
-Patches are loaded by firing DOM events which create the modules, move them to a
+Patches are loaded by firing DOM events - which create the modules, move them to a
 location, connect the nodes, and set parameters - not necessarily in the sequence they were
 originally created, but in a slightly more economical (robotic) manner.
 
