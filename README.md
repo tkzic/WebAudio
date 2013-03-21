@@ -1,10 +1,12 @@
-Web Audio Playground - fork: load/save patches
+Web Audio Playground - fork: load/save patches and OSC control
 ==========
 Features:
 
-Load and Save patches to local web storage
-copy/paste patches to/from clipboard using window.prompt box (just use cmd-c or cmd-v)
-Control all module parameters via OSC using ruby server script (Max test patch included)
+- Load and Save patches to/from local web storage
+
+- copy/paste patches to/from clipboard using window.prompt box (just use cmd-c or cmd-v)
+
+- Control all module parameters via OSC using web sockets and ruby server script (Max test patch included)
 
 You can try the latest version at http://zerokidz.com/wap
 (for best results use Chrome browser)
