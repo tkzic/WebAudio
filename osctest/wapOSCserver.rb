@@ -18,7 +18,7 @@ require 'em-websocket'
 require 'json'
 
 
-fader1 = 0.0
+msg_data = 0.0
 socket = EM::WebSocket
 
 # initialize OSC
@@ -31,10 +31,11 @@ socket = EM::WebSocket
 
 # slider value
 # can we wild card these?
-@osc_server.add_method '/mod/0/slider/0' do | message |
+# @osc_server.add_method '/mod/0/slider/0' do | message |
+@osc_server.add_method '/mod/*/*/*' do | message |  
   puts "#{message.ip_address}:#{message.ip_port} -- #{message.address} -- #{message.to_a}"   # for debugging to console
-  fader1 = message.to_a[0].to_f
-  socket.send("/mod/0/slider/0 #{fader1}")
+  msg_data = message.to_a[0].to_f
+  socket.send("#{message.address} #{msg_data}")
 end
 
 

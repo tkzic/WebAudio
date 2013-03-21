@@ -60,6 +60,36 @@ function setupModuleDescriptionList() {
 	// descibe the modules
 	
 	moduleDescriptionList[0] = new ModuleDescription({
+		"moduleType" : "audiobuffersource",
+		"toggle" : [new ControlDescription({
+			"name" : "play", 	
+			"controlType" : "toggle",
+			"min" : 0,
+			"max" : 1,
+			"default" : 0,
+			"unitDescription" : ""
+			})],
+		"menu" : [new ControlDescription({
+			"name" : "file", 	
+			"controlType" : "menu",
+			"min" : 0,
+			"max" : 6,
+			"default" : 0,
+			"unitDescription" : ""
+			})],
+		"checkbox" : [new ControlDescription({
+			"name" : "loop", 	
+			"controlType" : "checkbox",
+			"min" : 0,
+			"max" : 1,
+			"default" : 0,
+			"unitDescription" : ""
+			})],
+		"constructor" : createAudioBufferSourceFromMenu
+	});
+	
+	
+	moduleDescriptionList[1] = new ModuleDescription({
 		"moduleType" : "oscillator",
 		"slider" : [new ControlDescription({
 			"name" : "frequency",
@@ -97,8 +127,128 @@ function setupModuleDescriptionList() {
 		"checkbox" : [],
 		"constructor" : createOscillator
 	});
+	
+	
+	moduleDescriptionList[2] = new ModuleDescription({
+		"moduleType" : "live input",
+		"toggle" : [],
+		"menu" : [],
+		"checkbox" : [],
+		"constructor" : createLiveInput
+	});
+	
+	moduleDescriptionList[3] = new ModuleDescription({
+		"moduleType" : "biquadfilter",
+		"slider" : [new ControlDescription({
+			"name" : "frequency",
+			"controlType" : "slider",
+			"min" : 0.0,
+			"max" : 20000.0,
+			"default" : 440.0,
+			"unitDescription" : "hz"
+			}),
+			new ControlDescription({
+			"name" : "q", 	
+			"controlType" : "slider",
+			"min" : 1.0,
+			"max" : 100.0,
+			"default" : 1.0,
+			"unitDescription" : ""
+			}),
+			new ControlDescription({
+			"name" : "gain", 	
+			"controlType" : "slider",
+			"min" : 0.0,
+			"max" : 10.0,
+			"default" : 1.0,
+			"unitDescription" : ""
+			}),
+			],		
+	
+		"menu" : [new ControlDescription({
+			"name" : "filter", 	
+			"controlType" : "menu",
+			"min" : 0,
+			"max" : 7,
+			"default" : 0,
+			"unitDescription" : ""
+			})],
+		"checkbox" : [],
+		"constructor" : createBiquadFilter
+	});
+	
 
-	moduleDescriptionList[1] = new ModuleDescription({
+	moduleDescriptionList[4] = new ModuleDescription({
+		"moduleType" : "delay",
+		"slider" : [new ControlDescription({
+			"name" : "delay time",
+			"controlType" : "slider",
+			"min" : 0.0,
+			"max" : 10.0,
+			"default" : 0.2,
+			"unitDescription" : "sec"
+			})
+			],
+		"toggle" : [],
+		"menu" : [],
+		"checkbox" : [],
+		"constructor" : createDelay
+	});
+	
+	
+	moduleDescriptionList[5] = new ModuleDescription({
+		"moduleType" : "dynamicscompressor",
+		"slider" : [new ControlDescription({
+			"name" : "threshold",
+			"controlType" : "slider",
+			"min" : -36.0,
+			"max" : 0.0,
+			"default" : -24.0,
+			"unitDescription" : "db"
+			}),
+			new ControlDescription({
+			"name" : "knee", 	
+			"controlType" : "slider",
+			"min" : 0.0,
+			"max" : 40.0,
+			"default" : 30.0,
+			"unitDescription" : "db"
+			}),
+			new ControlDescription({
+			"name" : "ratio", 	
+			"controlType" : "slider",
+			"min" : 1.0,
+			"max" : 50.0,
+			"default" : 12.0,
+			"unitDescription" : ""
+			}),
+			],		
+
+		"slider" : [new ControlDescription({
+			"name" : "attack",
+			"controlType" : "slider",
+			"min" : 0.003,
+			"max" : 1.0,
+			"default" : 0.003,
+			"unitDescription" : "sec"
+			}),
+			new ControlDescription({
+			"name" : "release", 	
+			"controlType" : "slider",
+			"min" : 0.25,
+			"max" : 2.0,
+			"default" : 0.25,
+			"unitDescription" : "sec"
+			}),
+			],
+		
+		"menu" : [],
+		"checkbox" : [],
+		"constructor" : createDynamicsCompressor
+	});
+	
+
+	moduleDescriptionList[6] = new ModuleDescription({
 		"moduleType" : "gain",
 		"slider" : [new ControlDescription({
 			"name" : "gain",
@@ -114,7 +264,36 @@ function setupModuleDescriptionList() {
 		"checkbox" : [],
 		"constructor" : createGain
 	});
-
+	
+	moduleDescriptionList[7] = new ModuleDescription({
+		"moduleType" : "convolver",
+		"slider" : [],
+		"menu" : [new ControlDescription({
+			"name" : "file", 	
+			"controlType" : "menu",
+			"min" : 0,
+			"max" : 2,
+			"default" : 0,
+			"unitDescription" : ""
+			})],
+		"checkbox" : [new ControlDescription({
+				"name" : "norm", 	
+				"controlType" : "checkbox",
+				"min" : 0,
+				"max" : 1,
+				"default" : 0,
+				"unitDescription" : ""
+				})],
+		"constructor" : createConvolver
+	});
+	
+	moduleDescriptionList[8] = new ModuleDescription({
+		"moduleType" : "analyser",
+		"toggle" : [],
+		"menu" : [],
+		"checkbox" : [],
+		"constructor" : createAnalyser
+	});
 
 }
 
@@ -220,19 +399,24 @@ function parseOSCMessage(msg) {
 	var controlNdx;
 	var dataVal;
 	var md;		// pointer to module description list entry
+	var controlType;
 	
 	md = moduleDescriptionList[modDescNdx];
 	
 	// get data value and control index - probably should do more checking on these tokens
 	dataVal = parseFloat(token[1]);
 	controlNdx = parseInt(cmd[4]);
+	controlType = cmd[3];
+	console.log("OSCparse: controlType: " + controlType);
 	
-	if(cmd[3] == "slider") {
+	c = b[modNdx];		// ref to module element in DOM
+	
+	if(controlType == "slider") {
 		// translate range from 0->1 to actual
 		controlVal = linearMap( token[1], 0.0, 1.0, md.slider[controlNdx].min, md.slider[controlNdx].max );
 		console.log("slider control value will be: " + controlVal );
 		// now set the value 
-		c = b[modNdx];		// ref to module element in DOM
+	
 		// sliderValues
 		h = c.getElementsByClassName("content");
 		if(h.length) {
@@ -243,14 +427,57 @@ function parseOSCMessage(msg) {
 			}
 		}
 	}
+	// another experiment in silliness
+	// the toggle is actually more like a bang
+	// it only applies to ocillator and abs play - for now - both use img tags 
+	// with onclick functions attached...
 	
-	/*	
-	 	var f = 1000.0 * parseFloat(s[1]);
-		var i = Math.round(f);
-		console.log("freqChange:" + i);
-		sample.changeFrequency(i);
+	else if(controlType == "toggle") {
+		// use actual value
+		controlVal = parseInt( token[1] );  // 1 or 0
+		console.log("toggle control value will be: " + controlVal );
+		// now set the value - so far, Oscillator is only module with toggle 
+	
+		d = c.getElementsByTagName("img");
+		if(d.length) {
+			e = d[0].onclick;	// get event handler
+			e({target:d[controlNdx]}); // and run it	
 		}
-*/
+	}
+	
+	else if(controlType == "menu") {
+		// use actual value (menu index)
+		controlVal = parseInt( token[1] );  // 
+		console.log("menu control value will be: " + controlVal );
+	
+		// now set the value 
+	
+		f = c.getElementsByTagName("footer");
+		if(f.length) {						// if there is a footer
+			e = f[0].getElementsByTagName("select"); // footermenu
+			if(e.length) {
+				e[0].selectedIndex = controlVal;	// set menu index 
+				e[0].onchange({target:e[0]});	// spoof the event, passing self (element) as target											
+			}
+		}	
+	}
+	
+	else if(controlType == "checkbox") {
+		// use actual value 0/1
+		controlVal = parseInt( token[1] );  // 
+		console.log("checkbox control value will be: " + controlVal );
+	
+		// now set the value 
+	
+		f = c.getElementsByTagName("footer");
+		if(f.length) {						// if there is a footer
+			g = f[0].getElementsByTagName("input");	// checkbox				
+			if(g.length) {
+				g[0].checked = controlVal;	// set checkbox value 
+				g[0].onchange({target:g[0]});	// spoof the event, passing self (element) as target											
+			}
+		}	
+	}		
 
 
 }
