@@ -9,9 +9,14 @@ Features:
 - Control all module parameters via OSC using web sockets and ruby server script (Max test patch included)
 
 You can try the latest version at http://zerokidz.com/wap
-(for best results use Chrome browser)
+(for best results use Chrome browser Mac OS - although many features of the API are supported
+in other browsers and platforms)
+
+demo video: http://youtu.be/yMILUtaPISY
 
 Patches are saved in JSON text format
+
+Documentation is in the mail...
 
 ---
 
@@ -21,7 +26,7 @@ If you look at the code, you'll notice its practically identical to the original
 
 Patches are loaded by firing DOM events - which create the modules, move them to a
 location, connect the nodes, and set parameters - not necessarily in the sequence they were
-originally created, but in a slightly more economical (robotic) manner.
+originally created by humans, but in a slightly more economical (robotic) manner.
 
 ---
 
