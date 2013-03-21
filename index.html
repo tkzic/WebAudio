@@ -19,6 +19,7 @@
 	<script src="js/analyser.js"></script>
 	<!-- tz mod -->
 	<script src="js/patcher.js"></script>
+	<script src="js/socketsOSC.js"></script>
 
 	
 	<script>
@@ -79,7 +80,7 @@
 				
 				
 				<li>
-					<input type="button"" "id="sp" value="click to save patch as =&gt;" onclick="savePatchAs()"></input>						
+					<input type="button"" "id="sp" value="save as:" onclick="savePatchAs()"></input>						
 				</li>
 				
 				<li>
@@ -96,6 +97,10 @@
 				
 				<li>
 					<input type="button" id="pastetext" value="paste" onclick="pasteClipboardToScreen()"></input>						
+				</li>
+				
+				<li>
+					<input type="button" id="OSCbutton" value="OSC" onclick="connectOSC()"></input>						
 				</li>
 				
 					

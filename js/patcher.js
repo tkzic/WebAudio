@@ -1035,6 +1035,9 @@ function patcher_init() {
 	setClickHandler( "7up", loadPatch );
 	setClickHandler( "crush", loadPatch );
 	*/
+	
+	// describe modules we'll be using
+	setupModuleDescriptionList();
 
 	initLocalStorage();
 	
