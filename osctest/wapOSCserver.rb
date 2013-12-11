@@ -4,11 +4,12 @@
 # file: wapOSCserver.rb
 #
 # 
-# serve osc messages from the touch-osc sample template for testing
-# this will eventually be linked with websockets to provide a touchOsc
-# hardware interface for web clients
+# works with a Max patch wapOSCtester.maxpat 
 #
+# receives Osc messages from Max and sends them out via WebSockets to a forked version of WebAudioPlayground (WAP)
 #
+# note this program will crash if you send Osc messages to it before the WebSockets connect is initialized from the
+# WAP program running in the Web browser
 #
 
 require 'rubygems'
@@ -27,19 +28,23 @@ socket = EM::WebSocket
 @osc_client = OSC::Client.new( 'localhost', 9000 )  # this is the target, ie a Max patch on this computer
 
 
+
 # add methods to server which listens for OSC messages 
 
-# slider value
-# can we wild card these?
-# @osc_server.add_method '/mod/0/slider/0' do | message |
-@osc_server.add_method '/mod/*/*/*' do | message |  
+
+# note 12/11/2013 set address pattern matching to nil so that any OSC message matches the pattern and gets
+# passed along to web sockets
+
+#@osc_server.add_method '/mod/0/slider/0' do | message |    # this matches a precise address pattern
+#@osc_server.add_method '/mod/*/*/*' do | message |        # this no longer works 12/2013
+@osc_server.add_method nil do | message | 
   puts "#{message.ip_address}:#{message.ip_port} -- #{message.address} -- #{message.to_a}"   # for debugging to console
   msg_data = message.to_a[0].to_f
-  socket.send("#{message.address} #{msg_data}")
+  socket.send("#{message.address} #{msg_data}") # send message out over WebSockets (should check if socket is open first)
 end
 
 
-# fire up the server
+# fire up the Osc server
 Thread.new do
   @osc_server.run
 end
@@ -48,13 +53,14 @@ puts "waiting for Osc messages..."
 
 # ip = '192.168.1.104'
 ip = 'localhost'
-# now start up websockets server
 
+
+# now start up websockets server
 EM.run {
   EM::WebSocket.run(:host => ip, :port => 1234) do |ws|
-    ws.onopen { |handshake|
+    ws.onopen { |handshake|               # this runs when browser (client) opens a connection
       puts "WebSocket connection open"
-      socket = ws
+      socket = ws                         # assign websocket to global pointer so we can use it elsewhere in the program  
 
       # Access properties on the EM::WebSocket::Handshake object, e.g.
       # path, query_string, origin, headers
@@ -63,11 +69,11 @@ EM.run {
       ws.send "Hello Client, you connected to #{handshake.path}"
     }
 
-    ws.onclose { puts "Connection closed" }
+    ws.onclose { puts "Connection closed" } # this runs when connection closes
 
-    ws.onmessage { |msg|
+    ws.onmessage { |msg|                    # this runs when a message comes back from the websockets client
       puts "Recieved message: #{msg}"
-      ws.send "Pong: #{msg}"
+      ws.send "Pong: #{msg}"                # a sort of loopback
     }
   end
 }
