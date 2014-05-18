@@ -1,0 +1,45 @@
+// setting params
+/*
+
+These are the hideous chains of events you need to set the params in the modules. The good
+news is that I think they are consistent enough that this will work with everything.
+
+Bad news: this is horrible programming and it will break as soon as the UI is redefined
+
+I set these programmatically and nothing happened to the sounds...
+you need to fake the event after you set the value
+
+here are some examples
+
+// set value of first slider in first module to 4000
+
+a = document.getElementById("modules"); // modules
+b = a.children;		// array of modules
+c = b[0];			// first one
+h = c.getElementsByClassName("content");
+d = h[0].getElementsByTagName("input");	// range sliders
+d[0].value = 4000;	// set value of first one to 4000
+d[0].oninput({target:d[0]});	// spoof the event, passing self (element) as target
+
+// in first module, set value of menu in footer to item at index 2
+
+a = document.getElementById("modules"); // modules
+b = a.children;		// array of modules
+c = b[0];			// first one
+f = c.getElementsByTagName("footer");
+e = f[0].getElementsByTagName("select"); // menus
+e[0].selectedIndex = 2;
+e[0].onchange({target:e[0]});	// spoof the event, passing self (element) as target
+
+// in third module, check the checkbox in the footer
+
+a = document.getElementById("modules"); // modules
+b = a.children;		// array of modules
+c = b[2];			// third one
+f = c.getElementsByTagName("footer");
+g = f[0].getElementsByTagName("input");	// checkbox
+g[0].checked = true;
+g[0].onchange({target:g[0]});	// spoof the event, argggggg, passing self (element) as target
+
+
+*/

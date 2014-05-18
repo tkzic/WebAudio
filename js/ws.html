@@ -1,0 +1,138 @@
+
+<!doctype html>
+<head>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+
+<title>Oscillator | Web Audio API</title>
+
+<link rel="stylesheet" href="./static/style.css" type="text/css" media="screen" />
+
+
+<script>
+
+// var ip = '69.49.153.74';
+var ip = '192.168.1.104';
+var port = '1234';
+
+
+
+function doSocket () {
+	
+	
+	
+	try {
+	var socket = new WebSocket("ws://" + ip + ":" + port); 
+	
+	
+		console.debug('<p class="event">Socket Status: '+socket.readyState);  
+
+        socket.onopen = function(){  
+             console.debug('<p class="event">Socket Status: '+socket.readyState+' (open)');  
+        }  
+
+        socket.onmessage = function(msg){  
+             console.debug('<p class="message">Received: '+msg.data);
+			var s = msg.data.split(" ");
+			if(s[0] == "/fader1") {
+				
+  			 	var f = 1000.0 * parseFloat(s[1]);
+				var i = Math.round(f);
+				console.log("freqChange:" + i);
+				sample.changeFrequency(i);
+				}
+
+        }  
+
+        socket.onclose = function(){  
+             console.debug('<p class="event">Socket Status: '+socket.readyState+' (Closed)');  
+        }             
+
+    } catch(exception){  
+         console.debug('<p>Error'+exception);  
+    }
+
+ // socket.send("hsdfhjkjshd");
+
+}
+
+
+
+
+
+</script>
+
+
+</head>
+
+<body>
+
+<div id="container">
+
+  <div id="nav">
+    <ul>
+      <li><a href="/book">Book</a></li>
+      <li><a href="/samples">Samples</a>
+      </li>
+    </ul>
+  </div>
+
+  <div id="header">
+    <h1><a href="/">Web Audio API</a></h1>
+  </div>
+
+
+  <div id="wrapper">
+    <div id="content">
+
+      
+<div class="post">
+  <h2>Oscillator</h2>
+  <p>
+    <p>Generating basic tones at various frequencies using the <code>OscillatorNode</code>.</p>
+
+  </p>
+  <p>
+    <!-- Change between different Oscillator types. Also have a dragger
+     thing for frequency and detune, and visualize the result. -->
+
+<p><canvas style="background: white;"></canvas></p>
+
+<div>
+Frequency: <input id="frequency" type="range" min="0" max="1000"
+step="1" value="440"
+onchange="sample.changeFrequency(this.value);">
+Detune: <input id="detune" type="range" min="-100" max="100" step="5" value="0"
+onchange="sample.changeDetune(this.value);">
+</div>
+
+<div>
+<input type="radio" name="ir" value="0" class="effect" checked
+onclick="sample.changeType(0)">Sine</input>
+<input type="radio" name="ir" value="1" class="effect"
+onclick="sample.changeType(1)">Square</input>
+<input type="radio" name="ir" value="2" class="effect"
+onclick="sample.changeType(2)">Sawtooth</input>
+<input type="radio" name="ir" value="3" class="effect"
+onclick="sample.changeType(3)">Triangle</input>
+</div>
+
+<p><button onclick="sample.toggle()">Play/pause</button></p>
+<p><button onclick="doSocket()">sockets</button></p>
+
+<script src="./static/js/shared.js"></script>
+<script src="./oscillator-sample.js"></script>
+<script>
+var sample = new OscillatorSample();
+</script>
+
+  </p>
+</div>
+
+
+    </div>
+
+  </div>
+
+
+  </body>
+</html>
