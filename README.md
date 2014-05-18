@@ -1,7 +1,11 @@
 Web Audio Playground - fork: load/save patches and OSC control
 5/17/2014
 
-up to date docs: http://zerokidz.com/ideas/?p=6193
+Max projects using this fork of WAP can be found at:
+
+http://zerokidz.com/ideas/?p=6193
+http://zerokidz.com/ideas/?p=6243
+
 
 ==========
 Features:
